@@ -53,6 +53,9 @@ class MainWindow:
         # control buttons
         self.ui.quit_btn.clicked.connect(QCoreApplication.instance().quit)
         self.ui.new_word_btn.clicked.connect(self.new_word_btn)
+        
+        #letter buttons
+        self.ui.a_btn.clicked.connect(lambda: self.letter_btn(self.ui.a_btn))
     # ----- slots ----- #
     def new_word_btn(self):
         #chooses new word
@@ -62,6 +65,27 @@ class MainWindow:
         #reset
         self.misses = 0
         self.display_gallows()
+    #Letters
+
+    def letter_btn(self,button):
+        #disables the clicked button, checks fore letters in the word, checks the state of the game
+        #get letter
+        guess = button.text().lower()
+        print(guess)
+        #disabled letter
+        button.setEnabled(False)
+        #check if letter in the word
+        if guess in self.word:
+            #add guess
+            for index, letter in enumerate(self.word):
+                if guess == letter:
+                    self.guessed_word[index] = guess.upper()
+            #display the word
+            self.display_guesses()
+        else:
+            #add to misses count
+            self.misses += 1
+            self.display_gallows()
 
 
 if __name__ == '__main__':
