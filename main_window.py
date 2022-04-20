@@ -39,6 +39,35 @@ class MainWindow:
             display_word = display_word + charater + " "
 
         self.ui.word_lb.setText(display_word)
+    
+    def set_button_enabled(self,val):
+        #Changing the status of button
+        self.ui.a_btn.setEnabled(val)
+        self.ui.b_btn.setEnabled(val)
+        self.ui.c_btn.setEnabled(val)
+        self.ui.d_btn.setEnabled(val)
+        self.ui.e_btn.setEnabled(val)
+        self.ui.f_btn.setEnabled(val)
+        self.ui.g_btn.setEnabled(val)
+        self.ui.h_btn.setEnabled(val)
+        self.ui.i_btn.setEnabled(val)
+        self.ui.j_btn.setEnabled(val)
+        self.ui.k_btn.setEnabled(val)
+        self.ui.l_btn.setEnabled(val)
+        self.ui.m_btn.setEnabled(val)
+        self.ui.n_btn.setEnabled(val)
+        self.ui.o_btn.setEnabled(val)
+        self.ui.p_btn.setEnabled(val)
+        self.ui.q_btn.setEnabled(val)
+        self.ui.r_btn.setEnabled(val)
+        self.ui.s_btn.setEnabled(val)
+        self.ui.t_btn.setEnabled(val)
+        self.ui.u_btn.setEnabled(val)
+        self.ui.v_btn.setEnabled(val)
+        self.ui.w_btn.setEnabled(val)
+        self.ui.x_btn.setEnabled(val)
+        self.ui.y_btn.setEnabled(val)
+        self.ui.z_btn.setEnabled(val)       
 
     def display_gallows(self):
         #displays the lil hangman pictures
@@ -56,15 +85,44 @@ class MainWindow:
         
         #letter buttons
         self.ui.a_btn.clicked.connect(lambda: self.letter_btn(self.ui.a_btn))
+        self.ui.b_btn.clicked.connect(lambda: self.letter_btn(self.ui.b_btn))
+        self.ui.c_btn.clicked.connect(lambda: self.letter_btn(self.ui.c_btn))
+        self.ui.d_btn.clicked.connect(lambda: self.letter_btn(self.ui.d_btn))
+        self.ui.e_btn.clicked.connect(lambda: self.letter_btn(self.ui.e_btn))
+        self.ui.f_btn.clicked.connect(lambda: self.letter_btn(self.ui.f_btn))
+        self.ui.g_btn.clicked.connect(lambda: self.letter_btn(self.ui.g_btn))
+        self.ui.h_btn.clicked.connect(lambda: self.letter_btn(self.ui.h_btn))
+        self.ui.i_btn.clicked.connect(lambda: self.letter_btn(self.ui.i_btn))
+        self.ui.j_btn.clicked.connect(lambda: self.letter_btn(self.ui.j_btn))
+        self.ui.k_btn.clicked.connect(lambda: self.letter_btn(self.ui.k_btn))
+        self.ui.l_btn.clicked.connect(lambda: self.letter_btn(self.ui.l_btn))
+        self.ui.m_btn.clicked.connect(lambda: self.letter_btn(self.ui.m_btn))
+        self.ui.n_btn.clicked.connect(lambda: self.letter_btn(self.ui.n_btn))
+        self.ui.o_btn.clicked.connect(lambda: self.letter_btn(self.ui.o_btn))
+        self.ui.p_btn.clicked.connect(lambda: self.letter_btn(self.ui.p_btn))
+        self.ui.q_btn.clicked.connect(lambda: self.letter_btn(self.ui.q_btn))
+        self.ui.r_btn.clicked.connect(lambda: self.letter_btn(self.ui.r_btn))
+        self.ui.s_btn.clicked.connect(lambda: self.letter_btn(self.ui.s_btn))
+        self.ui.t_btn.clicked.connect(lambda: self.letter_btn(self.ui.t_btn))
+        self.ui.u_btn.clicked.connect(lambda: self.letter_btn(self.ui.u_btn))
+        self.ui.v_btn.clicked.connect(lambda: self.letter_btn(self.ui.v_btn))
+        self.ui.w_btn.clicked.connect(lambda: self.letter_btn(self.ui.w_btn))
+        self.ui.x_btn.clicked.connect(lambda: self.letter_btn(self.ui.x_btn))
+        self.ui.y_btn.clicked.connect(lambda: self.letter_btn(self.ui.y_btn))
+        self.ui.z_btn.clicked.connect(lambda: self.letter_btn(self.ui.z_btn))
+
     # ----- slots ----- #
     def new_word_btn(self):
         #chooses new word
         #get new word
         self.choose_word()
         self.display_guesses()
+
         #reset
         self.misses = 0
         self.display_gallows()
+        self.set_button_enabled(True)
+        self.ui.result_lb.setText("")
     #Letters
 
     def letter_btn(self,button):
@@ -82,10 +140,17 @@ class MainWindow:
                     self.guessed_word[index] = guess.upper()
             #display the word
             self.display_guesses()
+            #check win
+            if "_" not in self.guessed_word:
+                self.ui.result_lb.setText("Winner!")
         else:
             #add to misses count
             self.misses += 1
             self.display_gallows()
+            #check for loss
+            if self.misses == 11:
+                self.ui.result_lb.setText(f"The word was {self.word.upper()}")
+                self.set_button_enabled(False)
 
 
 if __name__ == '__main__':
