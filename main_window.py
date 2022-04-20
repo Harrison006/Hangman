@@ -1,6 +1,7 @@
 import imp
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow
+from PyQt6.QtCore import QCoreApplication
 from PyQt6.QtGui import QPixmap
 from Ui_hangman import Ui_MainWindow
 from datastore import Datastore
@@ -20,6 +21,7 @@ class MainWindow:
         self.choose_word()
         self.display_guesses()
         self.display_gallows()
+        self.signals()
 
     def show(self):
         self.main_win.show()
@@ -48,9 +50,19 @@ class MainWindow:
         """
         Connects the UI buttons to the corresponding functions (see slots)
         """
-        pass
-    
+        # control buttons
+        self.ui.quit_btn.clicked.connect(QCoreApplication.instance().quit)
+        self.ui.new_word_btn.clicked.connect(self.new_word_btn)
     # ----- slots ----- #
+    def new_word_btn(self):
+        #chooses new word
+        #get new word
+        self.choose_word()
+        self.display_guesses()
+        #reset
+        self.misses = 0
+        self.display_gallows()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
