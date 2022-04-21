@@ -129,7 +129,6 @@ class MainWindow:
         #disables the clicked button, checks fore letters in the word, checks the state of the game
         #get letter
         guess = button.text().lower()
-        print(guess)
         #disabled letter
         button.setEnabled(False)
         #check if letter in the word

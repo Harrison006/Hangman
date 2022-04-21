@@ -9,7 +9,6 @@ class Datastore():
 
         with open("dictionary.txt") as word_file:
             self.words = word_file.read().splitlines()
-        print(self.words)
     def get_word(self):
         #returns random word of 3 or more char
         word = ""
