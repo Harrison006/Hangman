@@ -74,7 +74,7 @@ class MainWindow:
         file_name = (f"./assets/{self.misses}.png")
         gallow = QPixmap(file_name)
         self.ui.gallow_lb.setPixmap(gallow)
-         
+
     def signals(self):
         """
         Connects the UI buttons to the corresponding functions (see slots)
