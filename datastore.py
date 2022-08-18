@@ -1,14 +1,15 @@
 #datastore
 import random
+import sqlite3
 class Datastore():
 
     def __init__(self):
         """
-        initialise datastore by reading dictionary file and adding each word into a list 
+        connect sqlite db
         """
-
-        with open("dictionary.txt") as word_file:
-            self.words = word_file.read().splitlines()
+        db_file = "hangman_datastore.db"
+        self.conn = sqlite3.connect(db_file)
+        self.cur = self.conn.cursor()
     def get_word(self):
         #returns random word of 3 or more char
         word = ""
