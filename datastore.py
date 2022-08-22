@@ -1,18 +1,51 @@
-#datastore
 import random
 import sqlite3
+from unittest import result
+ 
 class Datastore():
-
+   
     def __init__(self):
         """
-        connect sqlite db
+        intialise datastore by connecting to the sqlite db
         """
         db_file = "hangman_datastore.db"
         self.conn = sqlite3.connect(db_file)
         self.cur = self.conn.cursor()
+       
+           
     def get_word(self):
-        #returns random word of 3 or more char
-        word = ""
-        while len(word) < 3:
-            word = random.choice(self.words)
-        return word
+        """
+        returns a random word of 3 or more characters
+        return: str
+        """
+       
+        self.cur.execute(
+            """
+            SELECT word
+            FROM Words
+            """
+        )
+        results = self.cur.fetchall()
+        return random.choice(results)[0]
+
+    def get_password(self,user):
+        """
+        retrieves users password
+        user:str
+        Password:str
+        """
+        self.cur.execute(
+            """
+            SELECT password
+            FROM Users
+            WHERE name = :user
+            """,
+            {
+                "user":user
+            }
+        )
+        results = self.cur.fetchone()
+        if results is None:
+            return None
+        else:
+            return results[0]
