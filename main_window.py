@@ -1,10 +1,18 @@
 import imp
+from pydoc import doc
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow
 from PyQt6.QtCore import QCoreApplication
 from PyQt6.QtGui import QPixmap
 from Ui_hangman import Ui_MainWindow
 from datastore import Datastore
+db = Datastore()
+
+class lg_window:
+    
+    def login(self):
+        db.get_password()
+        db.user() == self.ui.lg_user_name_le
 
 class MainWindow:
     def __init__(self):
@@ -123,8 +131,9 @@ class MainWindow:
         self.display_gallows()
         self.set_button_enabled(True)
         self.ui.result_lb.setText("")
-    #Letters
 
+        
+    #Letters
     def letter_btn(self,button):
         #disables the clicked button, checks fore letters in the word, checks the state of the game
         #get letter
