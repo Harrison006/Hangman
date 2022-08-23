@@ -2,4 +2,4 @@ from datastore import Datastore
 
 db = Datastore()
 
-print(db.get_password("allah"))
+print(db.get_user_id("Allah"))

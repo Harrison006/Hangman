@@ -8,12 +8,6 @@ from Ui_hangman import Ui_MainWindow
 from datastore import Datastore
 db = Datastore()
 
-class lg_window:
-    
-    def login(self):
-        db.get_password()
-        db.user() == self.ui.lg_user_name_le
-
 class MainWindow:
     def __init__(self):
         # ui elements
@@ -22,6 +16,8 @@ class MainWindow:
         self.ui.setupUi(self.main_win)
         # init game var
         self.db = Datastore()
+        self.user_id()
+        self.user_id 
         self.word = ''
         self.guessed_word = []
         self.misses = 0
@@ -30,6 +26,7 @@ class MainWindow:
         self.display_guesses()
         self.display_gallows()
         self.signals()
+        
 
     def show(self):
         self.main_win.show()
@@ -39,7 +36,7 @@ class MainWindow:
         
         self.word = self.db.get_word()
         self.guessed_word = ["_"] * len(self.word)
-
+    
     def display_guesses(self):
         # Display Letters missed
         display_word = ""
@@ -90,6 +87,7 @@ class MainWindow:
         # control buttons
         self.ui.quit_btn.clicked.connect(QCoreApplication.instance().quit)
         self.ui.new_word_btn.clicked.connect(self.new_word_btn)
+        self.ui.lg_login_btn.clicked.connect(self.login)
         
         #letter buttons
         self.ui.a_btn.clicked.connect(lambda: self.letter_btn(self.ui.a_btn))
@@ -160,6 +158,22 @@ class MainWindow:
                 self.ui.result_lb.setText(f"The word was {self.word.upper()}")
                 self.set_button_enabled(False)
 
+    def login(self):
+        """
+        takes usr name and pasd from ui and checks paswd
+        with DB password
+        """
+        username = self.ui.lg_user_name_le.text()
+        password = self.ui.lg_password_le.text()
+        stored_password = self.db.get_password(username)
+        if stored_password != None:
+            if stored_password == password:
+                self.user_id = self.db.get_user_id(username)
+                self.ui.stackedWidget.setCurrentWidget(self.ui.game_page)
+            else:
+                self.ui.lg_message_lb.setText("Wrong password")
+        else:
+            self.ui.lg_message_lb.setText("user not registered")
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

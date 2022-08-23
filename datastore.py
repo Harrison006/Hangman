@@ -44,3 +44,25 @@ class Datastore():
             return None
         else:
             return results[0]
+
+    def get_user_id(self, user):
+        """
+        returns the user_id for the provided user
+        user:str
+        user_id: int
+        """
+        self.cur.execute(
+            """
+            SELECT user_id
+            FROM Users
+            WHERE name = :name
+            """,
+            {
+                "name":user
+            }
+        )
+        results = self.cur.fetchone()
+        if results is None:
+            return None
+        else:
+            return results[0]
