@@ -16,6 +16,7 @@ class MainWindow:
         self.ui.setupUi(self.main_win)
         # init game var
         self.db = Datastore()
+        self.user_id = 0
         self.word = ''
         self.guessed_word = []
         self.misses = 0
