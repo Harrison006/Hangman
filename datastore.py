@@ -71,13 +71,36 @@ class Datastore():
         retrieves all usernames
         return: [str]
         """
+        #exe sql
         self.cur.execute(
         """
         SELECT name
         FROM Users
         """
-        )
-    #fetch results
-    results = self.cur.fetchall()
+    )
+        results = self.cur.fetchall()
+        users = []
+        for value in results:
+            users.append(value[0])
+
+        return users
     # add methods
 
+    def add_credentials(self,username,password):
+        """
+        sending user credentials to the datastore
+        user_name: str
+        password: str
+        """
+        self.cur.execute(
+            """
+            INSERT INTO Users (name,password)
+            VALUES (:username,:password)
+            """,
+            {
+                "username":username,
+                "password":password
+            }
+        )
+        #commit 
+        self.conn.commit()

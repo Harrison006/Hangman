@@ -87,6 +87,7 @@ class MainWindow:
         self.ui.quit_btn.clicked.connect(QCoreApplication.instance().quit)
         self.ui.new_word_btn.clicked.connect(self.new_word_btn)
         self.ui.lg_login_btn.clicked.connect(self.login)
+        self.ui.lg_register_btn.clicked.connect(self.show_register)
         
         #letter buttons
         self.ui.a_btn.clicked.connect(lambda: self.letter_btn(self.ui.a_btn))
@@ -173,6 +174,10 @@ class MainWindow:
                 self.ui.lg_message_lb.setText("Wrong password")
         else:
             self.ui.lg_message_lb.setText("user not registered")
+
+
+    def show_register(self):
+        self.ui.stackedWidget.setCurrentWidget(self.ui.register_page)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
