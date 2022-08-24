@@ -48,7 +48,7 @@ class Datastore():
     def get_user_id(self, user):
         """
         returns the user_id for the provided user
-        user:str
+        name:str
         user_id: int
         """
         self.cur.execute(
@@ -66,3 +66,18 @@ class Datastore():
             return None
         else:
             return results[0]
+    def get_all_usernames(self):
+        """
+        retrieves all usernames
+        return: [str]
+        """
+        self.cur.execute(
+        """
+        SELECT name
+        FROM Users
+        """
+        )
+    #fetch results
+    results = self.cur.fetchall()
+    # add methods
+
