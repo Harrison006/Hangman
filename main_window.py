@@ -88,6 +88,7 @@ class MainWindow:
         self.ui.new_word_btn.clicked.connect(self.new_word_btn)
         self.ui.lg_login_btn.clicked.connect(self.login)
         self.ui.lg_register_btn.clicked.connect(self.show_register)
+        self.ui.rg_register_btn.clicked.connect(self.register_user)
         
         #letter buttons
         self.ui.a_btn.clicked.connect(lambda: self.letter_btn(self.ui.a_btn))
@@ -178,6 +179,19 @@ class MainWindow:
 
     def show_register(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.register_page)
+
+    def register_user(self):
+        """
+        Adding user to databse if username is not taken
+        """
+        user_name = self.ui.rg_user_name_le.text()
+        password = self.ui.rg_password_le.text()
+        
+        if user_name in self.db.get_all_usernames():
+            self.ui.rg_message_lb("Username is taken")
+        else:
+            self.db.add_credentials(user_name, password)
+            self.user_id = self.db.get_user_id(user_name)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
