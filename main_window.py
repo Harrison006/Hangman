@@ -192,6 +192,8 @@ class MainWindow:
         else:
             self.db.add_credentials(user_name, password)
             self.user_id = self.db.get_user_id(user_name)
+            self.ui.stackedWidget.setCurrentWidget(self.ui.game_page)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
