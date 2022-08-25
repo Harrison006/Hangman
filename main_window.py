@@ -189,6 +189,8 @@ class MainWindow:
         
         if user_name in self.db.get_all_usernames():
             self.ui.rg_message_lb("Username is taken")
+            (len(password)>=6)
+            self.ui.rg_message_lb("Password is trash")
         else:
             self.db.add_credentials(user_name, password)
             self.user_id = self.db.get_user_id(user_name)
