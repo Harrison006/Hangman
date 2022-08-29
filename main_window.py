@@ -196,8 +196,16 @@ class MainWindow:
             self.db.add_credentials(user_name, password)
             self.user_id = self.db.get_user_id(user_name)
             self.ui.stackedWidget.setCurrentWidget(self.ui.game_page)
-
-
+    def choose_word(self):
+        """
+        gets word from datastore and creates list of words
+        and creates corroosponding list for guessed letters
+        """
+        self.word = self.db.get_word()
+        self.db.get_guessed_words
+        while self.word in self.db.get_guessed_words(self.user_id):
+            self.word = self.db.get_word()
+        self.guessed_word = ["_"] * len(self.word)
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     main_win = MainWindow()

@@ -2,4 +2,4 @@ from datastore import Datastore
 
 db = Datastore()
 
-print(db.add_credentials("Jamal","jesus"))
+print(db.get_guessed_words(2))
