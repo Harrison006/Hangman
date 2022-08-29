@@ -180,6 +180,7 @@ class MainWindow:
     def show_register(self):
         self.ui.stackedWidget.setCurrentWidget(self.ui.register_page)
 
+
     def register_user(self):
         """
         Adding user to databse if username is not taken
@@ -189,7 +190,7 @@ class MainWindow:
         
         if user_name in self.db.get_all_usernames():
             self.ui.rg_message_lb("Username is taken")
-            (len(password)>=6)
+        if len(password) < 6 or len(password) > 20:
             self.ui.rg_message_lb("Password is trash")
         else:
             self.db.add_credentials(user_name, password)
