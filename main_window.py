@@ -97,6 +97,8 @@ class MainWindow:
         self.ui.lg_login_btn.clicked.connect(self.login)
         self.ui.lg_register_btn.clicked.connect(self.show_register)
         self.ui.rg_register_btn.clicked.connect(self.register_user)
+        self.ui.stats_button.clicked.connect(self.show_stats)
+        self.ui.st_return_btn.clicked.connect(self.show_game)
         
         #letter buttons
         self.ui.a_btn.clicked.connect(lambda: self.letter_btn(self.ui.a_btn))
@@ -207,6 +209,47 @@ class MainWindow:
             self.user_id = self.db.get_user_id(user_name)
             self.ui.stackedWidget.setCurrentWidget(self.ui.game_page)
 
+
+    def show_stats(self):
+        """
+        Shows Stats Page
+        """
+
+        #get val
+
+        name = self.db.get_username(self.user_id)
+        played = self.db.get_games_played(self.user_id)
+        won = self.db.get_games_won(self.user_id)
+        longest = self.db.get_longest_word(self.user_id)
+        most_missed = self.db.get_most_missed(self.user_id)
+
+        #find missing
+        if played == 0:
+            win_loss = 0
+        else:
+            win_loss = round(won / played * 100)
+
+        lost = played - won
+
+        #prep page
+        self.ui.st_name_lb.setText(name)
+        self.ui.st_played_lb.setText(str(played))
+        self.ui.st_won_lb.setText(str(won))
+        self.ui.st_lost_lb.setText(str(lost))
+        self.ui.st_ratio_lb.setText(str(win_loss)+"%")
+        self.ui.st_long_word_lb.setText(longest)
+        self.ui.st_most_missed_lb.setText(most_missed)
+
+        #display stats scrn
+
+        self.ui.stackedWidget.setCurrentWidget(self.ui.stats_page)
+
+
+    def show_game(self):
+        """
+        Displays Game
+        """
+        self.ui.stackedWidget.setCurrentWidget(self.ui.game_page)
 
 
 if __name__ == '__main__':

@@ -1,3 +1,4 @@
+
 import random
 import sqlite3
 from unittest import result
@@ -125,6 +126,131 @@ class Datastore():
             for value in results:
                 words.append(value[0])
             return words
+
+    def get_games_played(self, user_id):
+        """
+        Returns all games played
+        user_id = int
+        """
+
+        self.cur.execute(
+            """
+            SELECT COUNT(user_id)
+            FROM  Games
+            WHERE user_id = :user_id
+            """,
+            {
+                "user_id":user_id
+            }
+        )
+
+        results = self.cur.fetchone()
+
+        return results[0]
+
+
+    def get_games_won(self, user_id):
+        """
+        Get all games won
+        user_id = int
+        """
+        
+        self.cur.execute(
+            """
+            SELECT COUNT(user_id)
+            FROM Games
+            WHERE user_id = :user_id AND guessed = "TRUE"
+            """,
+            {
+                "user_id":user_id
+            }
+        )
+
+        results = self.cur.fetchone()
+        return results[0]
+
+
+    def get_most_missed(self, user_id):
+        """
+        returns most missed word
+        user_id = int
+        """
+
+        self.cur.execute(
+            """
+            SELECT word
+            FROM Words
+            WHERE word_id IN (
+                SELECT word_id
+                FROM Games
+                WHERE user_id = :user_id AND guessed = "FALSE"
+                GROUP BY word_id 
+                ORDER BY COUNT(word_id) DESC
+                LIMIT 1
+            )
+            """,
+            {
+                "user_id":user_id
+            }
+        )
+        results = self.cur.fetchone()
+        
+        if results == None:
+            return None
+        else:
+            return results[0]
+
+
+    def get_longest_word(self, user_id):
+        """
+        Returns longest word user guessed
+        user_id = int
+        """
+
+        self.cur.execute(
+            """
+            SELECT word
+            FROM Words
+            WHERE word_id IN (
+                SELECT word_id
+                FROM Games
+                WHERE user_id = :user_id AND guessed = "TRUE"
+            )
+            ORDER BY LENGTH(word) DESC
+            """,
+            {
+                "user_id":user_id
+            }
+        )
+        results = self.cur.fetchone()
+        
+        if results == None:
+            return None
+        else:
+            return results[0]
+
+        
+
+    def get_username(self, user_id):
+            """
+            Gets Username
+            user_id = int
+            """
+
+            self.cur.execute(
+                """
+                SELECT name
+                FROM Users
+                WHERE user_id = :user_id
+                """,
+                {
+                    "user_id":user_id
+                }
+            )    
+
+            results = self.cur.fetchone()
+            return results[0]
+
     # add methods
 
     def add_credentials(self,username,password):
