@@ -20,6 +20,7 @@ class MainWindow:
         self.word = ''
         self.guessed_word = []
         self.misses = 0
+        self.word_id = None
         # init ui with start values
         self.choose_word()
         self.display_guesses()
@@ -33,7 +34,7 @@ class MainWindow:
     def choose_word(self):
         # gets word from datastore
         
-        self.word = self.db.get_word()
+        self.word_id, self.word = self.db.get_word()
         self.guessed_word = ["_"] * len(self.word)
     
     def display_guesses(self):
@@ -206,6 +207,8 @@ class MainWindow:
         while self.word in self.db.get_guessed_words(self.user_id):
             self.word = self.db.get_word()
         self.guessed_word = ["_"] * len(self.word)
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     main_win = MainWindow()
