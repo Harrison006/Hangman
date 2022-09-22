@@ -24,10 +24,12 @@ class Datastore():
             """
         )
         results = self.cur.fetchall()
+        
         while True:
             word = random.choice(results)
             if len(word[1]) > 3:
                 return word
+
 
 
     def get_password(self,user):
@@ -104,7 +106,7 @@ class Datastore():
             """
             SELECT word
             FROM Words
-            WHERE word_id = (
+            WHERE word_id IN (
                 SELECT word_id
                 FROM Games
                 WHERE user_id = :user_id AND guessed = "TRUE"
@@ -115,13 +117,14 @@ class Datastore():
             }
         )
         results = self.cur.fetchall()
+        
         if results == []:
             return results
-        words = []
-        for value in results:
-            words.append(value[0])
-        return words
-
+        else:
+            words = []
+            for value in results:
+                words.append(value[0])
+            return words
     # add methods
 
     def add_credentials(self,username,password):
@@ -141,4 +144,27 @@ class Datastore():
             }
         )
         #commit 
+        self.conn.commit()
+
+
+    def add_result(self, user_id, word_id, guessed):
+        """
+        Adding Results to db
+        user_id = int
+        word_id = int
+        guess = str
+        """
+
+        self.cur.execute(
+            """
+            INSERT INTO Games (user_id, word_id, guessed)
+            VALUES (:user_id, :word_id, :guessed)
+            """,
+            {
+                "user_id":user_id,
+                "word_id":word_id,
+                "guessed":guessed
+            }
+        )
+
         self.conn.commit()

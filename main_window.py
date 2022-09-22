@@ -6,7 +6,6 @@ from PyQt6.QtCore import QCoreApplication
 from PyQt6.QtGui import QPixmap
 from Ui_hangman import Ui_MainWindow
 from datastore import Datastore
-db = Datastore()
 
 class MainWindow:
     def __init__(self):
@@ -20,7 +19,7 @@ class MainWindow:
         self.word = ''
         self.guessed_word = []
         self.misses = 0
-        self.word_id = None
+        self.word_id = 0
         # init ui with start values
         self.choose_word()
         self.display_guesses()
@@ -35,7 +34,15 @@ class MainWindow:
         # gets word from datastore
         
         self.word_id, self.word = self.db.get_word()
+
+        self.word = self.word.lower()
+
+        while self.word in self.db.get_guessed_words(self.user_id):
+            self.word_id, self.word = self.db.get_word()
+
         self.guessed_word = ["_"] * len(self.word)
+        print(self.word)
+
     
     def display_guesses(self):
         # Display Letters missed
@@ -151,6 +158,7 @@ class MainWindow:
             #check win
             if "_" not in self.guessed_word:
                 self.ui.result_lb.setText("Winner!")
+                self.db.add_result(self.user_id, self.word_id, "TRUE")
         else:
             #add to misses count
             self.misses += 1
@@ -159,6 +167,7 @@ class MainWindow:
             if self.misses == 11:
                 self.ui.result_lb.setText(f"The word was {self.word.upper()}")
                 self.set_button_enabled(False)
+                self.db.add_result(self.user_id, self.word_id, "FALSE")
 
     def login(self):
         """
@@ -197,16 +206,7 @@ class MainWindow:
             self.db.add_credentials(user_name, password)
             self.user_id = self.db.get_user_id(user_name)
             self.ui.stackedWidget.setCurrentWidget(self.ui.game_page)
-    def choose_word(self):
-        """
-        gets word from datastore and creates list of words
-        and creates corroosponding list for guessed letters
-        """
-        self.word = self.db.get_word()
-        self.db.get_guessed_words
-        while self.word in self.db.get_guessed_words(self.user_id):
-            self.word = self.db.get_word()
-        self.guessed_word = ["_"] * len(self.word)
+
 
 
 if __name__ == '__main__':
