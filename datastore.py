@@ -253,6 +253,11 @@ class Datastore():
 
     # add methods
 
+
+
+
+
+
     def add_credentials(self,username,password):
         """
         sending user credentials to the datastore
