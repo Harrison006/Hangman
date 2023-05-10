@@ -174,6 +174,7 @@ class MainWindow:
     def login(self):
         """
         takes usr name and pasd from ui and checks paswd
+        
         with DB password
         """
         username = self.ui.lg_user_name_le.text()
